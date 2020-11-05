@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="" novalidate>
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <legend class="border-bottom mb-4">Search Song</legend>
+
+                <div class=form-group>
+                        {{form.name.label(class="form-control-label") }}
+                        {% if form.name.errors %}
+                            {{  form.name(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.name.errors %}
+                                    <span>{{ error}}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.name(class="form-control form-control-lg")}}
+                        {% endif %}
+                </div>
+
+                <div class=form-group>
+                    {{form.album.label(class="form-control-label") }}
+                    {% if form.album.errors %}
+                        {{  form.album(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.album.errors %}
+                                <span>{{ error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.album(class="form-control form-control-lg")}}
+                    {% endif %}
+                </div>
+
+                <div class=form-group>
+                    {{form.genre.label(class="form-control-label") }}
+                    {% if form.genre.errors %}
+                        {{  form.genre(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.genre.errors %}
+                                <span>{{ error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.genre(class="form-control form-control-lg")}}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+    <br>
+ <h3>All Songs</h3>
+{% if songs %}
+    {% for song in songs %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <h3><a class="mr-2" style="color:DodgerBlue;">{{ song.composer[0].name }}</a></h3>
+              <small class="text-muted">{{ song.release_date }}</small>
+            </div>
+            <h2><a class="article-title">{{ song.name }}</a></h2>
+            <audio
+            controls
+            src="{{ url_for('static', filename='audio/' + song.file_location) }}">
+            Your browser does not support the
+            <code>audio</code> element.
+            </audio>
+          </div>
+        </article>
+    {% endfor %}
+{% else %}
+      <article class="media">
+        <!-- <h3>Wow! Empty.</h3> -->
+        <br>
+        <div class="media">
+          <img src="{{ url_for('static', filename='images/empty.jpg') }}">
+        </div>
+      </article>
+{% endif %}
+{% endblock %}

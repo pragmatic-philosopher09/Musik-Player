@@ -1,0 +1,8 @@
+virtualenv --python=/usr/bin/python3.6 flask
+cd flask
+source bin/activate
+cd
+cd musicapp-test
+export FLASK_APP=run.py
+flask run
+

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="" novalidate>
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <legend class="border-bottom mb-4">Search Podcast</legend>
+
+                <div class=form-group>
+                        {{form.name.label(class="form-control-label") }}
+                        {% if form.name.errors %}
+                            {{  form.name(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.name.errors %}
+                                    <span>{{ error}}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.name(class="form-control form-control-lg")}}
+                        {% endif %}
+                </div>
+
+                <div class=form-group>
+                    {{form.category.label(class="form-control-label") }}
+                    {% if form.category.errors %}
+                        {{  form.category(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.category.errors %}
+                                <span>{{ error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.category(class="form-control form-control-lg")}}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+<br>
+ <h3>All Podcasts</h3>
+{% if podcasts %}
+    {% for podcast in podcasts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" style="color:DodgerBlue;">{{ podcast.artists }}</a>
+              <small class="text-muted">{{ podcast.release_date }}</small>
+            </div>
+            <h2><a class="article-title">{{ podcast.title }}</a></h2>
+            <audio
+            controls
+            src="{{ url_for('static', filename='audio/' + song.file_location) }}">
+            Your browser does not support the
+            <code>audio</code> element.
+            </audio>
+          </div>
+        </article>
+    {% endfor %}
+{% else %}
+      <article class="media">
+        <!-- <h3>Wow! Such Empty.</h3> -->
+        <br>
+        <div class="media">
+          <img src="{{ url_for('static', filename='images/empty.jpg') }}">
+        </div>
+      </article>
+{% endif %}
+{% endblock %}
